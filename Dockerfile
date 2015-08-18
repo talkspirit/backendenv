@@ -22,10 +22,6 @@ RUN echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
 RUN cd /etc/php5/fpm/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
 RUN cd /etc/php5/cli/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
 
-#
-RUN apt-get install php5-uprofiler
-RUN sed -i -e "s/extension=profiler.so/extension=uprofiler.so/g" /etc/php5/mods-available/uprofiler.ini
-
 ##
 ## php-fpm config
 RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php5/fpm/php.ini
