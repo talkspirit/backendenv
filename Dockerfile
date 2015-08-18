@@ -7,22 +7,19 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 
-RUN apt-get install -y php5-fpm php5-dev php5-cli wget zsh curl
+RUN apt-get install -y php5-fpm php5-dev php5-cli wget zsh curl vim zsh
 
 ## Basic Requirements
 RUN apt-get -y install php5-curl php5-apcu php5-dbg php5-gd php5-imagick php5-intl php5-json php5-mcrypt php5-redis php5-xdebug php5-xmlrpc
 
 #
 ## Install extensions
-RUN pecl install redis
 RUN pecl install mongo
 
-RUN echo "extension=redis.so" > /etc/php5/mods-available/redis.ini
+
 RUN echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
 
-RUN cd /etc/php5/fpm/conf.d;ln -s ../../mods-available/redis.ini 020-redis.ini
 RUN cd /etc/php5/fpm/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
-RUN cd /etc/php5/cli/conf.d;ln -s ../../mods-available/redis.ini 020-redis.ini
 RUN cd /etc/php5/cli/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
 
 RUN usermod -u 1000 www-data
