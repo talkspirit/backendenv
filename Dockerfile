@@ -22,8 +22,6 @@ RUN echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
 RUN cd /etc/php5/fpm/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
 RUN cd /etc/php5/cli/conf.d;ln -s ../../mods-available/mongo.ini 020-mongo.ini
 
-RUN usermod -u 1000 www-data
-
 #
 RUN apt-get install php5-uprofiler
 RUN sed -i -e "s/extension=profiler.so/extension=uprofiler.so/g" /etc/php5/mods-available/uprofiler.ini
