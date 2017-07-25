@@ -1,4 +1,4 @@
-FROM debian:8.7
+FROM debian:8.9
 
 MAINTAINER Olivier RICARD <olivier.docker@talkspirit.com>
 
@@ -15,10 +15,10 @@ RUN echo "date.timezone=${PHP_TIMEZONE:-UTC}" > /etc/php5/cli/conf.d/date_timezo
 
 #
 ## Install extensions
-RUN pecl install mongo
+RUN pecl install mongodb
 
-RUN echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-RUN php5enmod mcrypt mongo
+RUN echo "extension=mongodb.so" > /etc/php5/mods-available/mongodb.ini
+RUN php5enmod mcrypt mongodb
 RUN cd /etc/php5/mods-available/;echo "xdebug.max_nesting_level = 200" >> xdebug.ini
 ##
 ## php-fpm config
