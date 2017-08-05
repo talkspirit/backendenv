@@ -30,6 +30,7 @@ RUN sed -i -e "s/listen = \/run\/php\/php7.1-fpm.sock/;listen = \/run\/php\/php7
 ### cli config
 RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/7.1/cli/php.ini
 
+RUN mkdir /run/php/
 # tools
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar
