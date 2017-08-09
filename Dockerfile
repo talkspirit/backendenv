@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install php5-fpm php5-dev php5-cli wget zsh curl vim zsh git re2c libcurl4-openssl-dev pkg-config libssl-dev -y
 
 ## Basic Requirements
-RUN apt-get -y install php5-curl php5-apcu php5-gd php5-intl php5-json php5-redis
+RUN apt-get -y install php5-curl php5-apcu php5-gd php5-intl php5-json php5-redis php5-geoip
 
 ## build package
 RUN apt-get install -y build-essential debhelper devscripts sudo
