@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install wget zsh curl vim zsh git re2c libcurl4-openssl-dev pkg-config libssl-dev -y
 
 ## Basic Requirements
-RUN apt-get -y install php7.0-dev php7.0-cli php7.0-curl php7.0-gd php7.0-intl php7.0-redis php7.0-mongodb php7.0-apcu php7.0-fpm php7.0-dom php7.0-mbstring
+RUN apt-get -y install php7.0-dev php7.0-cli php7.0-curl php7.0-gd php7.0-intl php7.0-redis php7.0-mongodb php7.0-apcu php7.0-fpm php7.0-dom php7.0-mbstring php7.0-mcrypt
 
 ## build package
 RUN apt-get install -y build-essential debhelper devscripts sudo
