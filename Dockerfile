@@ -5,7 +5,7 @@ MAINTAINER Olivier RICARD <olivier+docker@talkspirit.com>
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install software-properties-common wget zsh curl vim zsh git supervisor -y
+RUN apt-get update && apt-get install software-properties-common wget zsh curl vim zsh git supervisor mongodb-clients -fy
 # package
 RUN apt-get install -y build-essential debhelper devscripts
 
