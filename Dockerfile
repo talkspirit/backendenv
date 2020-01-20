@@ -4,7 +4,7 @@ MAINTAINER Olivier RICARD <olivier.docker@talkspirit.com>
 
 RUN apt-get update
 
-RUN apt-get install -y zlib1g-dev libpq-dev git libicu-dev libxml2-dev \
+RUN apt-get install -y  libzip-dev zlib1g-dev libpq-dev git libicu-dev libxml2-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     && docker-php-ext-install pdo mysqli pdo_mysql \
