@@ -30,3 +30,4 @@ RUN mkdir /run/php/
 # tools
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar
+RUN curl -fLSs https://circle.ci/cli | bash
