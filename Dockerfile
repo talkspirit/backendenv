@@ -11,7 +11,7 @@ RUN apt-get install -y build-essential debhelper devscripts
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
-RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php-bcmath && \
+RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php7.4-bcmath && \
 echo "date.timezone=${PHP_TIMEZONE:-UTC}" > /etc/php/7.4/cli/conf.d/date_timezone.ini
 #
 #
