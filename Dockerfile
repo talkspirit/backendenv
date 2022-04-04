@@ -1,13 +1,13 @@
-FROM ubuntu:20.04
+FROM ubuntu:21.10
 
 MAINTAINER Olivier RICARD <olivier+docker@talkspirit.com>
 
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install software-properties-common wget zsh curl vim zsh git supervisor mongodb-clients -fy
-# package
-RUN apt-get install -y build-essential debhelper devscripts
+RUN apt-get update && apt-get install software-properties-common wget zsh curl vim zsh git supervisor build-essential debhelper devscripts -fy
+
+RUN wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.2.deb && dpkg -i mongodb-database-tools-ubuntu2004-x86_64-100.5.2.deb
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
