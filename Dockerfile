@@ -1,18 +1,20 @@
-FROM ubuntu:21.10
+FROM ubuntu:22.04
 
-MAINTAINER Olivier RICARD <olivier+docker@talkspirit.com>
+LABEL "com.talkspirit.maintainer" "Olivier RICARD <olivier+docker@talkspirit.com>"
 
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install software-properties-common wget zsh curl vim zsh git supervisor build-essential debhelper devscripts -fy
+RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential debhelper devscripts cron software-properties-common wget zsh curl vim zsh git supervisor -y
 
 RUN wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x86_64-100.5.2.deb && dpkg -i mongodb-database-tools-ubuntu2004-x86_64-100.5.2.deb
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
-RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php7.4-bcmath && \
-echo "date.timezone=${PHP_TIMEZONE:-UTC}" > /etc/php/7.4/cli/conf.d/date_timezone.ini
+RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php7.4-bcmath php7.4-mysql && \
+echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/7.4/cli/conf.d/date_timezone.ini && \
+echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/7.4/fpm/conf.d/date_timezone.ini
+
 #
 #
 ## xdebug
@@ -31,5 +33,5 @@ RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
     curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar && \
     wget https://get.symfony.com/cli/installer -O - | bash && \
-    mv /root/.symfony/bin/symfony /usr/local/bin/symfony  && \
+    mv /root/.symfony5/bin/symfony /usr/local/bin/symfony  && \
     curl -fLSs https://circle.ci/cli | bash
