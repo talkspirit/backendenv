@@ -1,6 +1,6 @@
 FROM ubuntu:21.10
 
-MAINTAINER Olivier RICARD <olivier+docker@talkspirit.com>
+LABEL com.talkspirit.image.authors="Olivier RICARD <olivier+docker@talkspirit.com>"
 
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
@@ -11,7 +11,7 @@ RUN wget https://fastdl.mongodb.org/tools/db/mongodb-database-tools-ubuntu2004-x
 
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
-RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php7.4-bcmath && \
+RUN apt-get update && apt-get install -y php7.4-fpm php7.4-mongodb php7.4-gd php7.4-curl php7.4-cli php7.4-soap php7.4-apcu php7.4-opcache php7.4-intl php7.4-mbstring php7.4-redis php7.4-dom php7.4-zip php7.4-geoip php7.4-imagick php7.4-bcmath php7.4-mysql && \
 echo "date.timezone=${PHP_TIMEZONE:-UTC}" > /etc/php/7.4/cli/conf.d/date_timezone.ini
 #
 #
