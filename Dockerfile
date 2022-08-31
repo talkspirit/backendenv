@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 
 LABEL "com.talkspirit.maintainer" "Olivier RICARD <olivier+docker@talkspirit.com>"
 
