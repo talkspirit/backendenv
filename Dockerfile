@@ -14,9 +14,12 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
 # geoip https://github.com/maxmind/GeoIP2-php
 
-RUN apt-get update && apt-get install -y mongodb-mongosh mongodb-org-tools php8.1-fpm php8.1-mongodb php8.1-gd php8.1-curl php8.1-cli php8.1-soap php8.1-apcu php8.1-opcache php8.1-intl php8.1-mbstring php8.1-redis php8.1-dom php8.1-zip php8.1-imagick php8.1-bcmath php8.1-mysql && \
+RUN apt-get update && apt-get install -y mongodb-mongosh mongodb-org-tools php8.1-dev php8.1-fpm php8.1-mongodb php8.1-gd php8.1-curl php8.1-cli php8.1-soap php8.1-apcu php8.1-opcache php8.1-intl php8.1-mbstring php8.1-redis php8.1-dom php8.1-zip php8.1-imagick php8.1-bcmath php8.1-mysql && \
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.1/cli/conf.d/date_timezone.ini && \
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.1/fpm/conf.d/date_timezone.ini
+
+RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
+RUN pecl install mongodb-1.15.0
 
 #
 #
