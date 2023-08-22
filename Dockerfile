@@ -19,7 +19,7 @@ echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.1/cli/conf.d/dat
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.1/fpm/conf.d/date_timezone.ini
 
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
-RUN pecl install mongodb-1.15.0
+#RUN pecl install mongodb-1.16.2
 
 #
 #
