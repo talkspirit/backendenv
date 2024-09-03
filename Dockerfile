@@ -21,7 +21,18 @@ echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.3/fpm/conf.d/dat
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
 #RUN pecl install mongodb-1.16.2
 
-#
+# Install timecop
+RUN mkdir -p /tmp/install && \
+    git clone --depth 1 https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
+    cd /tmp/install/php-timecop && \
+    git fetch origin 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
+    git checkout 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
+    phpize && \
+    ./configure && \
+    make && \
+    make install  && \
+    echo "extension=timecop.so" >> /etc/php/8.3/cli/php.ini
+
 #
 ## xdebug
 #RUN apt-get install php8.3-xdebug
