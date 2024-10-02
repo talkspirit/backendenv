@@ -1,11 +1,11 @@
 FROM ubuntu:20.04
 
-LABEL "com.talkspirit.maintainer" "Olivier RICARD <olivier+docker@talkspirit.com>"
+LABEL "com.talkspirit.maintainer"="Olivier RICARD <olivier+docker@talkspirit.com>"
 
 # Let the conatiner know that there is no tty
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential debhelper devscripts cron software-properties-common wget zsh curl vim zsh git supervisor -y
+RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential debhelper devscripts cron software-properties-common wget zsh curl vim zsh git supervisor jq -y
 
 # MongoDB shell tools
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
@@ -23,7 +23,7 @@ RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
 
 # Install timecop
 RUN mkdir -p /tmp/install && \
-    git clone --depth 1 https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
+    git clone https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
     cd /tmp/install/php-timecop && \
     git fetch origin 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
     git checkout 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
