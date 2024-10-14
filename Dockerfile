@@ -5,7 +5,7 @@ LABEL "com.talkspirit.maintainer"="Olivier RICARD <olivier+docker@talkspirit.com
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential debhelper devscripts cron software-properties-common wget zsh curl vim zsh git supervisor jq -y
+RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential debhelper devscripts cron software-properties-common wget zsh curl vim zsh git supervisor jq libjq-dev -y
 
 # MongoDB shell tools
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
@@ -21,7 +21,7 @@ echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.3/fpm/conf.d/dat
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
 #RUN pecl install mongodb-1.16.2
 
-# Install timecop
+# Install timecop & jq
 RUN mkdir -p /tmp/install && \
     git clone https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
     cd /tmp/install/php-timecop && \
@@ -30,10 +30,17 @@ RUN mkdir -p /tmp/install && \
     phpize && \
     ./configure && \
     make && \
+    make install && \
+    echo "extension=timecop.so" >> /etc/php/8.3/cli/php.ini && \
+    git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq && \
+    cd /tmp/install/jq && \
+    phpize && \
+    ./configure && \
+    make && \
     make install  && \
-    echo "extension=timecop.so" >> /etc/php/8.3/cli/php.ini
+    echo "extension=jq.so" >> /etc/php/8.3/cli/php.ini && \
+    rm /tmp/install/ -Rf
 
-#
 ## xdebug
 #RUN apt-get install php8.3-xdebug
 #RUN cd /etc/php/8.3/mods-available/;echo "xdebug.max_nesting_level = 200" >> xdebug.ini
