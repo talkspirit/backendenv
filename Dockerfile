@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 LABEL "com.talkspirit.maintainer"="Olivier RICARD <olivier+docker@talkspirit.com>"
 
@@ -14,9 +14,9 @@ RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
 # geoip https://github.com/maxmind/GeoIP2-php
 
-RUN apt-get update && apt-get install -y mongodb-mongosh mongodb-org-tools php8.3-dev php8.3-fpm php8.3-mongodb php8.3-gd php8.3-curl php8.3-cli php8.3-soap php8.3-apcu php8.3-opcache php8.3-intl php8.3-mbstring php8.3-redis php8.3-dom php8.3-zip php8.3-imagick php8.3-bcmath php8.3-mysql && \
-echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.3/cli/conf.d/date_timezone.ini && \
-echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.3/fpm/conf.d/date_timezone.ini
+RUN apt-get update && apt-get install -y mongodb-mongosh mongodb-org-tools php8.4-dev php8.4-fpm php8.4-mongodb php8.4-gd php8.4-curl php8.4-cli php8.4-soap php8.4-apcu php8.4-opcache php8.4-intl php8.4-mbstring php8.4-redis php8.4-dom php8.4-zip php8.4-imagick php8.4-bcmath php8.4-mysql && \
+echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/cli/conf.d/date_timezone.ini && \
+echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/fpm/conf.d/date_timezone.ini
 
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
 #RUN pecl install mongodb-1.16.2
@@ -31,26 +31,26 @@ RUN mkdir -p /tmp/install && \
     ./configure && \
     make && \
     make install && \
-    echo "extension=timecop.so" >> /etc/php/8.3/cli/php.ini && \
+    echo "extension=timecop.so" >> /etc/php/8.4/cli/php.ini && \
     git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq && \
     cd /tmp/install/jq && \
     phpize && \
     ./configure && \
     make && \
     make install  && \
-    echo "extension=jq.so" >> /etc/php/8.3/cli/php.ini && \
+    echo "extension=jq.so" >> /etc/php/8.4/cli/php.ini && \
     rm /tmp/install/ -Rf
 
 ## xdebug
-#RUN apt-get install php8.3-xdebug
-#RUN cd /etc/php/8.3/mods-available/;echo "xdebug.max_nesting_level = 200" >> xdebug.ini
+#RUN apt-get install php8.4-xdebug
+#RUN cd /etc/php/8.4/mods-available/;echo "xdebug.max_nesting_level = 200" >> xdebug.ini
 #
 ### php-fpm config
-RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/8.3/cli/php.ini && \
-    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/8.3/cli/php.ini && \
-    sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/8.3/fpm/php-fpm.conf && \
-    sed -i -e "s/listen = \/run\/php\/php8.3-fpm.sock/;listen = \/run\/php\/php8.3-fpm.sock\nlisten = 0:9000/g" /etc/php/8.3/fpm/pool.d/www.conf && \
-    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/8.3/cli/php.ini
+RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/8.4/cli/php.ini && \
+    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g" /etc/php/8.4/cli/php.ini && \
+    sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/8.4/fpm/php-fpm.conf && \
+    sed -i -e "s/listen = \/run\/php\/php8.4-fpm.sock/;listen = \/run\/php\/php8.4-fpm.sock\nlisten = 0:9000/g" /etc/php/8.4/fpm/pool.d/www.conf && \
+    sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/8.4/cli/php.ini
 
 # tools
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
