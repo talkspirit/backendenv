@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL "com.talkspirit.maintainer"="Olivier RICARD <olivier+docker@talkspirit.com>"
 
@@ -19,7 +19,13 @@ echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/cli/conf.d/dat
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/fpm/conf.d/date_timezone.ini
 
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
-#RUN pecl install mongodb-1.16.2
+
+# tools
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
+    curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar && \
+    wget https://get.symfony.com/cli/installer -O - | bash && \
+    mv /root/.symfony5/bin/symfony /usr/local/bin/symfony  && \
+    curl -fLSs https://circle.ci/cli | bash
 
 # Install timecop & jq
 RUN mkdir -p /tmp/install && \
@@ -51,10 +57,3 @@ RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc
     sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/8.4/fpm/php-fpm.conf && \
     sed -i -e "s/listen = \/run\/php\/php8.4-fpm.sock/;listen = \/run\/php\/php8.4-fpm.sock\nlisten = 0:9000/g" /etc/php/8.4/fpm/pool.d/www.conf && \
     sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php/8.4/cli/php.ini
-
-# tools
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
-    curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar && \
-    wget https://get.symfony.com/cli/installer -O - | bash && \
-    mv /root/.symfony5/bin/symfony /usr/local/bin/symfony  && \
-    curl -fLSs https://circle.ci/cli | bash
