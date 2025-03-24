@@ -18,8 +18,6 @@ RUN apt-get update && apt-get install -y mongodb-mongosh mongodb-org-tools php8.
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/cli/conf.d/date_timezone.ini && \
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/fpm/conf.d/date_timezone.ini
 
-RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
-
 # tools
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
     curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar && \
@@ -29,16 +27,16 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Install timecop & jq
 RUN mkdir -p /tmp/install && \
-    git clone https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
+    git clone https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop --depth 1 && \
     cd /tmp/install/php-timecop && \
-    git fetch origin 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
-    git checkout 03a1ad366062d3adcd1efc39d69667debbc85ff5 && \
+    git fetch origin v1.7.0 && \
+    git checkout v1.7.0 && \
     phpize && \
     ./configure && \
     make && \
     make install && \
     echo "extension=timecop.so" >> /etc/php/8.4/cli/php.ini && \
-    git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq && \
+    git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq --depth 1 && \
     cd /tmp/install/jq && \
     phpize && \
     ./configure && \
