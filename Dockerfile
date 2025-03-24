@@ -39,16 +39,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Install timecop & jq
 RUN mkdir -p /tmp/install && \
-    git clone https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop --depth 1 && \
+    git clone --depth 1 --branch v1.7.0 https://github.com/kiddivouchers/php-timecop.git /tmp/install/php-timecop && \
     cd /tmp/install/php-timecop && \
-    git fetch origin v1.7.0 && \
-    git checkout v1.7.0 && \
     phpize && \
     ./configure && \
     make && \
     make install && \
     echo "extension=timecop.so" >> /etc/php/8.4/cli/php.ini && \
-    git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq --depth 1 && \
+    git clone --depth=1 https://github.com/kjdev/php-ext-jq.git /tmp/install/jq  && \
     cd /tmp/install/jq && \
     phpize && \
     ./configure && \
