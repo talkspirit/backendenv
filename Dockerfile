@@ -11,8 +11,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y build-essential d
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && chmod a+x /usr/local/bin/yq
 
 # MongoDB shell tools
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add -
-RUN echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+RUN mkdir -p -m 755 /etc/apt/keyrings \
+    && wget -qO - https://pgp.mongodb.com/server-8.0.asc | gpg --dearmor -o /etc/apt/keyrings/mongodb-server-8.0.gpg \
+    && echo "deb [ arch=amd64,arm64 signed-by=/etc/apt/keyrings/mongodb-server-8.0.gpg ] https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y -u && apt-get update
 
 # Add gh cli
@@ -31,7 +32,8 @@ echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/cli/conf.d/dat
 echo "date.timezone=${PHP_TIMEZONE:-Europe/Paris}" > /etc/php/8.4/fpm/conf.d/date_timezone.ini
 
 # tools
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer  && \
+ARG COMPOSER_VERSION=2.9.5
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=${COMPOSER_VERSION} && \
     curl -sS http://gordalina.github.io/cachetool/downloads/cachetool.phar -o /usr/local/bin/cachetool.phar && \
     wget https://get.symfony.com/cli/installer -O - | bash && \
     mv /root/.symfony5/bin/symfony /usr/local/bin/symfony  && \
